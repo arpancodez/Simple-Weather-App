@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
+  <title>Ultimate Weather App</title>
   <link rel="stylesheet" href="main.css" />
 </head>
 <body>
   <div class="app-wrap">
     <header>
       <input type="text" autocomplete="off" class="search-box" placeholder="Search for a city..." />
+      <ul class="search-history"></ul>
     </header>
     <main>
       <section class="location">
@@ -23,6 +24,8 @@
       </div>
     </main>
     <div class="effects"></div>
+    <div class="sun"></div>
+    <div class="moon"></div>
   </div>
   <script src="main.js"></script>
 </body>
