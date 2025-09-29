@@ -7,7 +7,7 @@ const hiLowEl = document.querySelector('.hi-low');
 const appWrap = document.querySelector('.app-wrap');
 const effectsEl = document.querySelector('.effects');
 
-const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your API key
+const apiKey = 'fcc8de7015bbb202209bbf0261babf4c'; // Replace with your API key
 
 searchBox.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
