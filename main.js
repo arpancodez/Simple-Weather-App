@@ -6,22 +6,40 @@ const weatherEl = document.querySelector('.weather');
 const hiLowEl = document.querySelector('.hi-low');
 const appWrap = document.querySelector('.app-wrap');
 const effectsEl = document.querySelector('.effects');
+const sunEl = document.querySelector('.sun');
+const moonEl = document.querySelector('.moon');
+const historyEl = document.querySelector('.search-history');
 
-const apiKey = 'fcc8de7015bbb202209bbf0261babf4c'; // Replace with your API key
+const apiKey = 'fcc8de7015bbb202209bbf0261babf4c';
+let searchHistory = [];
 
 searchBox.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        fetchWeather(searchBox.value);
-    }
+    if (e.key === 'Enter') fetchWeather(searchBox.value);
+});
+
+searchBox.addEventListener('input', function() {
+    const val = searchBox.value.toLowerCase();
+    if(!val) { historyEl.style.display='none'; return; }
+    historyEl.innerHTML = '';
+    searchHistory.filter(city => city.toLowerCase().includes(val))
+      .forEach(city => {
+          const li = document.createElement('li');
+          li.textContent = city;
+          li.onclick = () => fetchWeather(city);
+          historyEl.appendChild(li);
+      });
+    historyEl.style.display = 'block';
 });
 
 function fetchWeather(city) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
         .then(res => res.json())
         .then(data => {
+            if(!searchHistory.includes(city)) searchHistory.push(city);
+            historyEl.style.display='none';
             updateUI(data);
         })
-        .catch(() => alert('City not found!'));
+        .catch(()=>alert('City not found!'));
 }
 
 function updateUI(data) {
@@ -38,60 +56,56 @@ function updateUI(data) {
 
     updateBackground(data.weather[0].main);
     generateEffects(data.weather[0].main);
+    updateSunMoon();
 }
 
 function animateTemp(target) {
     let current = 0;
     tempEl.innerHTML = `0<span>°c</span>`;
     const interval = setInterval(() => {
-        if (current >= target) clearInterval(interval);
-        else {
-            current++;
-            tempEl.innerHTML = `${current}<span>°c</span>`;
-        }
-    }, 20);
+        if(current>=target) clearInterval(interval);
+        else { current++; tempEl.innerHTML=`${current}<span>°c</span>`; }
+    },20);
 }
 
 function updateBackground(weather) {
-    let bg = '';
-    switch (weather.toLowerCase()) {
-        case 'clear':
-            bg = 'linear-gradient(to top, #fbc2eb, #a6c1ee)';
-            break;
-        case 'clouds':
-            bg = 'linear-gradient(to top, #bdc3c7, #2c3e50)';
-            break;
+    let bg='';
+    switch(weather.toLowerCase()){
+        case 'clear': bg='linear-gradient(to top,#fbc2eb,#a6c1ee)'; break;
+        case 'clouds': bg='linear-gradient(to top,#bdc3c7,#2c3e50)'; break;
         case 'rain':
-        case 'drizzle':
-            bg = 'linear-gradient(to top, #4e54c8, #8f94fb)';
-            break;
-        case 'snow':
-            bg = 'linear-gradient(to top, #83a4d4, #b6fbff)';
-            break;
-        case 'thunderstorm':
-            bg = 'linear-gradient(to top, #0f2027, #203a43, #2c5364)';
-            break;
-        default:
-            bg = 'linear-gradient(to top, #74ebd5, #ACB6E5)';
+        case 'drizzle': bg='linear-gradient(to top,#4e54c8,#8f94fb)'; break;
+        case 'snow': bg='linear-gradient(to top,#83a4d4,#b6fbff)'; break;
+        case 'thunderstorm': bg='linear-gradient(to top,#0f2027,#203a43,#2c5364)'; break;
+        default: bg='linear-gradient(to top,#74ebd5,#ACB6E5)';
     }
-    appWrap.style.background = bg;
+    appWrap.style.background=bg;
 }
 
-// Generate animated effects like rain or snow
-function generateEffects(weather) {
-    effectsEl.innerHTML = '';
-    let count = 0;
-    if (weather.toLowerCase() === 'rain' || weather.toLowerCase() === 'drizzle') count = 50;
-    else if (weather.toLowerCase() === 'snow') count = 30;
-    else if (weather.toLowerCase() === 'clouds') count = 10;
-
-    for (let i = 0; i < count; i++) {
-        const el = document.createElement('div');
+function generateEffects(weather){
+    effectsEl.innerHTML='';
+    let count=0;
+    if(weather.toLowerCase()==='rain'||weather.toLowerCase()==='drizzle') count=50;
+    else if(weather.toLowerCase()==='snow') count=30;
+    else if(weather.toLowerCase()==='clouds') count=10;
+    for(let i=0;i<count;i++){
+        const el=document.createElement('div');
         el.classList.add('effect-item');
-        el.style.left = `${Math.random() * 100}%`;
-        el.style.animationDuration = `${2 + Math.random() * 3}s`;
-        el.style.width = `${2 + Math.random() * 4}px`;
-        el.style.height = `${2 + Math.random() * 4}px`;
+        el.style.left=`${Math.random()*100}%`;
+        el.style.animationDuration=`${2+Math.random()*3}s`;
+        el.style.width=`${2+Math.random()*4}px`;
+        el.style.height=`${2+Math.random()*4}px`;
         effectsEl.appendChild(el);
+    }
+}
+
+function updateSunMoon(){
+    const hour=new Date().getHours();
+    if(hour>=6 && hour<18){
+        sunEl.style.opacity='1';
+        moonEl.style.opacity='0';
+    } else {
+        sunEl.style.opacity='0';
+        moonEl.style.opacity='1';
     }
 }
