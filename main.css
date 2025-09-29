@@ -1,95 +1,162 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
-  font-family: 'montserrat', sans-serif;
-  background-image: url('bg.jpg');
-  background-size: cover;
-  background-position: top center;
-}
-
-.app-wrap {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
-}
-
-header {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 15px 15px;
+  background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+  overflow: hidden;
 }
 
-header input {
+.app-wrap {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  padding: 40px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  overflow: hidden;
+}
+
+header {
+  margin-bottom: 30px;
+}
+
+.search-box {
   width: 100%;
-  max-width: 280px;
-  padding: 10px 15px;
+  padding: 12px 20px;
+  border-radius: 50px;
   border: none;
   outline: none;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 0px 16px 0px 16px;
-  border-bottom: 3px solid gray;
-
-  color: #313131;
-  font-size: 20px;
-  font-weight: 300;
-  transition: 0.2s ease-out;
+  font-size: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: 0.3s ease;
 }
 
-header input:focus {
-  background-color: rgba(255, 255, 255, 0.6);
+.search-box::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-box:focus {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 main {
-  flex: 1 1 100%;
-  padding: 25px 25px 50px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  gap: 25px;
 }
 
 .location .city {
-  color: #fff;
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 700;
   margin-bottom: 5px;
 }
 
 .location .date {
-  color: #fff;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .current .temp {
-  color: #fff;
-  font-size: 102px;
-  font-weight: 900;
-  margin: 30px 0px;
-  text-shadow: 2px 10px rgba(0, 0, 0, 0.6);
+  font-size: 60px;
+  font-weight: 700;
+  margin: 10px 0;
 }
 
 .current .temp span {
-  font-weight: 500;
+  font-size: 24px;
 }
 
 .current .weather {
-  color: #fff;
-  font-size: 32px;
-  font-weight: 700;
-  font-style: italic;
-  margin-bottom: 15px;
-  text-shadow: 0px 3px rgba(0, 0, 0, 0.4);
+  font-size: 18px;
+  margin-bottom: 8px;
+  position: relative;
 }
 
 .current .hi-low {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 500;
-  text-shadow: 0px 4px rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Weather Icon */
+.weather::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 10px;
+  background-size: cover;
+}
+
+.weather[data-weather="Clear"]::before {
+  background-image: url('https://img.icons8.com/emoji/96/sun-emoji.png');
+}
+
+.weather[data-weather="Clouds"]::before {
+  background-image: url('https://img.icons8.com/emoji/96/cloud-emoji.png');
+}
+
+.weather[data-weather="Rain"]::before {
+  background-image: url('https://img.icons8.com/emoji/96/cloud-with-rain-emoji.png');
+}
+
+.weather[data-weather="Snow"]::before {
+  background-image: url('https://img.icons8.com/emoji/96/snowflake-emoji.png');
+}
+
+.weather[data-weather="Thunderstorm"]::before {
+  background-image: url('https://img.icons8.com/emoji/96/cloud-with-lightning-emoji.png');
+}
+
+/* Effects (animated clouds/rain/snow) */
+.effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.effect-item {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 50%;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-50px); opacity: 1; }
+  100% { transform: translateY(400px); opacity: 0; }
+}
+
+@media screen and (max-width: 400px) {
+  .app-wrap {
+    width: 90%;
+    padding: 30px;
+  }
+  
+  .current .temp {
+    font-size: 48px;
+  }
 }
