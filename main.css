@@ -1,167 +1,65 @@
-/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #74ebd5, #ACB6E5);
-  overflow: hidden;
-}
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Roboto',sans-serif; }
+body { height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg,#74ebd5,#ACB6E5); overflow:hidden; }
 
 .app-wrap {
   position: relative;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
   backdrop-filter: blur(15px);
-  border-radius: 25px;
-  padding: 40px;
-  width: 400px;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-  color: #fff;
-  overflow: hidden;
+  border-radius:25px;
+  padding:40px;
+  width:400px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  color:#fff;
+  overflow:hidden;
   transition: background 1s ease;
 }
 
-header {
-  margin-bottom: 20px;
-  position: relative;
-}
+header { margin-bottom:20px; position:relative; }
+.search-box { width:100%; padding:12px 20px; border-radius:50px; border:none; outline:none; font-size:16px; text-align:center; background: rgba(255,255,255,0.2); color:#fff; transition:0.3s ease; }
+.search-box::placeholder { color: rgba(255,255,255,0.7); }
+.search-box:focus { background: rgba(255,255,255,0.35); box-shadow:0 0 10px rgba(255,255,255,0.5); }
 
-.search-box {
-  width: 100%;
-  padding: 12px 20px;
-  border-radius: 50px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  transition: 0.3s ease;
-}
+.search-history { position:absolute; top:45px; left:0; width:100%; list-style:none; background: rgba(0,0,0,0.3); border-radius:10px; max-height:150px; overflow-y:auto; display:none; }
+.search-history li { padding:8px; cursor:pointer; }
+.search-history li:hover { background: rgba(255,255,255,0.2); }
 
-.search-box::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
+main { display:flex; flex-direction:column; gap:20px; }
+.location .city { font-size:28px; font-weight:700; margin-bottom:5px; }
+.location .date { font-size:14px; font-weight:500; color: rgba(255,255,255,0.7); }
 
-.search-box:focus {
-  background: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
+.current .temp { font-size:60px; font-weight:700; margin:10px 0; transition:all 0.5s ease; }
+.current .temp span { font-size:24px; }
+.current .weather { font-size:18px; margin-bottom:8px; position:relative; }
+.current .hi-low { font-size:14px; color: rgba(255,255,255,0.8); }
 
-.search-history {
-  position: absolute;
-  top: 45px;
-  left: 0;
-  width: 100%;
-  list-style: none;
-  background: rgba(0,0,0,0.3);
-  border-radius: 10px;
-  max-height: 150px;
-  overflow-y: auto;
-  display: none;
-}
+/* Weather Icons */
+.weather::before { content:''; display:block; width:60px; height:60px; margin:0 auto 10px; background-size:cover; }
+.weather[data-weather="Clear"]::before { background-image:url('https://img.icons8.com/emoji/96/sun-emoji.png'); }
+.weather[data-weather="Clouds"]::before { background-image:url('https://img.icons8.com/emoji/96/cloud-emoji.png'); }
+.weather[data-weather="Rain"]::before { background-image:url('https://img.icons8.com/emoji/96/cloud-with-rain-emoji.png'); }
+.weather[data-weather="Snow"]::before { background-image:url('https://img.icons8.com/emoji/96/snowflake-emoji.png'); }
+.weather[data-weather="Thunderstorm"]::before { background-image:url('https://img.icons8.com/emoji/96/cloud-with-lightning-emoji.png'); }
 
-.search-history li {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.search-history li:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.location .city {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-
-.location .date {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.current .temp {
-  font-size: 60px;
-  font-weight: 700;
-  margin: 10px 0;
-  transition: all 0.5s ease;
-}
-
-.current .temp span {
-  font-size: 24px;
-}
-
-.current .weather {
-  font-size: 18px;
-  margin-bottom: 8px;
-  position: relative;
-}
-
-.current .hi-low {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* Weather Icon */
-.weather::before {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 10px;
-  background-size: cover;
-}
-
-.weather[data-weather="Clear"]::before { background-image: url('https://img.icons8.com/emoji/96/sun-emoji.png'); }
-.weather[data-weather="Clouds"]::before { background-image: url('https://img.icons8.com/emoji/96/cloud-emoji.png'); }
-.weather[data-weather="Rain"]::before { background-image: url('https://img.icons8.com/emoji/96/cloud-with-rain-emoji.png'); }
-.weather[data-weather="Snow"]::before { background-image: url('https://img.icons8.com/emoji/96/snowflake-emoji.png'); }
-.weather[data-weather="Thunderstorm"]::before { background-image: url('https://img.icons8.com/emoji/96/cloud-with-lightning-emoji.png'); }
+/* Sun & Moon */
+.sun, .moon { position:absolute; width:80px; height:80px; border-radius:50%; top:20px; right:20px; transition:all 1s ease; }
+.sun { background: radial-gradient(circle,#FFD700,#FFA500); }
+.moon { background: radial-gradient(circle,#FFF,#CCC); }
 
 /* Effects */
-.effects, .sun, .moon {
-  position: absolute;
-  pointer-events: none;
-}
+.effects { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+.clouds svg { width:100%; height:100px; position:absolute; top:0; }
+.raindrops div, .snowflakes div { position:absolute; border-radius:50%; opacity:0.7; }
 
-.effects { top:0; left:0; width:100%; height:100%; overflow:hidden; }
-.effect-item { position:absolute; width:20px; height:20px; border-radius:50%; animation: fall linear infinite; }
+/* Raindrops */
+.raindrops div { width:2px; height:10px; background: rgba(255,255,255,0.7); animation: rain 1s linear infinite; }
+@keyframes rain { 0%{transform:translateY(-10px);} 100%{transform:translateY(400px);} }
 
-@keyframes fall { 0%{transform:translateY(-50px); opacity:1;} 100%{transform:translateY(400px);opacity:0;} }
-
-/* Sun and Moon */
-.sun, .moon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  top: 20px;
-  right: 20px;
-  transition: all 1s ease;
-}
-
-.sun { background: radial-gradient(circle, #FFD700, #FFA500); }
-.moon { background: radial-gradient(circle, #FFF, #CCC); }
+/* Snowflakes */
+.snowflakes div { width:4px; height:4px; background: rgba(255,255,255,0.8); animation: snow linear infinite; }
+@keyframes snow { 0%{transform:translateY(-10px);} 100%{transform:translateY(400px);} }
 
 /* Responsive */
-@media screen and (max-width: 420px) {
-  .app-wrap { width: 90%; padding: 30px; }
-  .current .temp { font-size: 48px; }
-}
+@media screen and (max-width:420px){ .app-wrap{width:90%;padding:30px;} .current .temp{font-size:48px;} }
